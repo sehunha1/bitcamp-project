@@ -3,15 +3,50 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class BookController {
-  Book[] books = new Book[100];
-  int length = 0;
-  Scanner keyScan;
+  private Book[] books = new Book[100];
+  private int length = 0;
+  private Scanner keyScan;
 
   public BookController(Scanner keyScan) {
     this.keyScan = keyScan;
   }
 
-  public void doList() {
+  public void service() {
+    loop:
+    while (true) {
+      System.out.print("교재관리> ");
+      String command = keyScan.nextLine().toLowerCase();
+      switch (command) {
+        case "add" :
+          this.doAdd();
+          break;
+
+        case "list" :
+          this.doList();
+          break;
+
+        case "view" :
+          this.doView();
+          break;
+
+        case "delete" :
+          this.doDelete();
+          break;
+
+        case "update" :
+          this.doUpdate();
+          break;
+
+        case "main" :
+          break loop;
+
+        default :
+          System.out.println("지원하지 않는 명령어입니다.");
+      }
+    }
+  }
+
+  private void doList() {
     for (int i = 0; i < this.length; i++) {
       Book book = this.books[i];
       System.out.printf("%s,%s,%s,%d,%d,%d,%s\n",
@@ -25,7 +60,7 @@ public class BookController {
     }
   }
 
-  public void doAdd() {
+  private void doAdd() {
     while (length < this.books.length) {
       Book book = new Book();
       System.out.print("서명?(문자로) ");
@@ -49,7 +84,7 @@ public class BookController {
     }
   }
 
-  public void doView() {
+  private void doView() {
     System.out.print("조회할 서명은? ");
     String title = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -70,7 +105,7 @@ public class BookController {
     }
   }
 
-  public void doDelete() {
+  private void doDelete() {
     System.out.print("삭제할 서명은? ");
     String title = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -86,7 +121,7 @@ public class BookController {
     System.out.printf("%s가 없습니다.\n", title);
   }
 
-  public void doUpdate() {
+  private void doUpdate() {
     System.out.print("변경할 서명은? ");
     String title = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
