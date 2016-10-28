@@ -34,13 +34,13 @@ public class BookController {
       book.author = this.keyScan.nextLine();
       System.out.print("출판사?(문자로) ");
       book.press = this.keyScan.nextLine();
-      System.out.print("출간일(예:20160101)? ");
+      System.out.print("출간일?(예:20160101) ");
       book.date = Integer.parseInt(this.keyScan.nextLine());
       System.out.print("가격?(숫자로) ");
       book.price = Integer.parseInt(this.keyScan.nextLine());
       System.out.print("쪽수?(숫자로) ");
       book.page = Integer.parseInt(this.keyScan.nextLine());
-      System.out.print("판매중여부(y/n)? ");
+      System.out.print("판매중여부?(y/n) ");
       book.sale = (this.keyScan.nextLine().equals("y")) ? true : false;
       books[length++] = book;
       System.out.print("계속 입력하시겠습니까(y/n)? ");
@@ -68,5 +68,60 @@ public class BookController {
         }
       }
     }
+  }
+
+  public void doDelete() {
+    System.out.print("삭제할 서명은? ");
+    String title = this.keyScan.nextLine().toLowerCase();
+    for (int i = 0; i < this.length; i++) {
+      if (title.equals(this.books[i].title)) {
+        for (int x = i + 1; x < this.length; x++, i++) {
+          this.books[i] = this.books[x];
+        }
+        this.books[--length] = null;
+        System.out.printf("%s를 삭제하였습니다.\n", title);
+        return;
+      }
+    }
+    System.out.printf("%s가 없습니다.\n", title);
+  }
+
+  public void doUpdate() {
+    System.out.print("변경할 서명은? ");
+    String title = this.keyScan.nextLine().toLowerCase();
+    for (int i = 0; i < this.length; i++) {
+      if (title.equals(this.books[i].title)) {
+        String temp1, temp2;
+        int temp3, temp4, temp5;
+        boolean temp6;
+        System.out.print("저자?(문자로) ");
+        temp1 = this.keyScan.nextLine();
+        System.out.print("출판사?(문자로) ");
+        temp2 = this.keyScan.nextLine();
+        System.out.print("출간일?(예:20160101) ");
+        temp3 = Integer.parseInt(this.keyScan.nextLine());
+        System.out.print("가격?(숫자로) ");
+        temp4 = Integer.parseInt(this.keyScan.nextLine());
+        System.out.print("쪽수?(숫자로) ");
+        temp5 = Integer.parseInt(this.keyScan.nextLine());
+        System.out.print("판매중여부?(y/n) ");
+        temp6 = (this.keyScan.nextLine().equals("y")) ? true : false;
+        System.out.print("저장하시겠습니까?(y/n) ");
+        String title2 = this.keyScan.nextLine().toLowerCase();
+        if (title2.equals("y")) {
+          this.books[i].author = temp1;
+          this.books[i].press = temp2;
+          this.books[i].date = temp3;
+          this.books[i].price = temp4;
+          this.books[i].page = temp5;
+          this.books[i].sale = temp6;
+          System.out.println("저장하였습니다.");
+        } else {
+          System.out.println("변경을 취소하였습니다.");
+        }
+        return;
+      }
+    }
+    System.out.printf("%s라는 서명이 없습니다.\n", title);
   }
 }

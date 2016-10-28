@@ -26,6 +26,14 @@ public class EduApp {
           bookController.doView();
           break;
 
+        case "delete" :
+          bookController.doDelete();
+          break;
+
+        case "update" :
+          bookController.doUpdate();
+          break;
+
         case "quit" :
           System.out.println("Good bye!");
           break loop;
