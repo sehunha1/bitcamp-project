@@ -9,9 +9,7 @@ public class Book {
   int page;
   boolean sale;
 
-  public Book() {
-
-  }
+  public Book() {}
 
   public Book(String title, String author, int price) {
     this.title = title;
