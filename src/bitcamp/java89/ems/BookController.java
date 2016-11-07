@@ -1,13 +1,14 @@
 package bitcamp.java89.ems;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class BookController {
-  private LinkedList<Book> list;
+  private ArrayList<Book> list;
   private Scanner keyScan;
 
   public BookController(Scanner keyScan) {
-    list = new LinkedList<Book>();
+    list = new ArrayList<Book>();
     this.keyScan = keyScan;
   }
 
@@ -47,8 +48,7 @@ public class BookController {
   }
 
   private void doList() {
-    for (int i = 0; i < list.size(); i++) {
-      Book book = list.get(i);
+    for (Book book : list) {
       System.out.printf("%s,%s,%s,%d,%d,%d,%s\n",
       book.title,
       book.author,
