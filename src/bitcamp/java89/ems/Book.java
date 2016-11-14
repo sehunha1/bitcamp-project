@@ -1,6 +1,8 @@
 package bitcamp.java89.ems;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
   String title;
   String author;
   String press;

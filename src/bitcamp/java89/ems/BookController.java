@@ -2,13 +2,19 @@ package bitcamp.java89.ems;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 
 public class BookController {
   private ArrayList<Book> list;
   private Scanner keyScan;
+  boolean change = false;
 
-  public BookController(Scanner keyScan) {
+  public BookController(Scanner keyScan) throws Exception {
     list = new ArrayList<Book>();
+    doLoad();
     this.keyScan = keyScan;
   }
 
@@ -33,6 +39,12 @@ public class BookController {
             break;
           case "update" :
             this.doUpdate();
+            break;
+          case "save" :
+            this.doSave();
+            break;
+          case "load" :
+            this.doLoad();
             break;
           case "main" :
             break loop;
@@ -89,6 +101,7 @@ public class BookController {
     if (keyScan.nextLine().toLowerCase().equals("y")) {
       book.title = oldBook.title;
       list.set(index, book);
+      change = true;
       System.out.println("저장하였습니다.");
     } else {
       System.out.println("변경을 취소하였습니다.");
@@ -104,24 +117,25 @@ public class BookController {
 
       System.out.print("저자?(문자로) ");
       book.author = this.keyScan.nextLine();
-        
+
       System.out.print("출판사?(문자로) ");
       book.press = this.keyScan.nextLine();
-        
+
       System.out.print("출간일?(예:20160101) ");
       book.date = Integer.parseInt(this.keyScan.nextLine());
-        
+
       System.out.print("가격?(숫자로) ");
       book.price = Integer.parseInt(this.keyScan.nextLine());
-        
+
       System.out.print("쪽수?(숫자로) ");
       book.page = Integer.parseInt(this.keyScan.nextLine());
-        
+
       System.out.print("판매중여부?(y/n) ");
       book.sale = (this.keyScan.nextLine().equals("y")) ? true : false;
-        
+
       list.add(book);
-      
+      change = true;
+
       System.out.print("계속 입력하시겠습니까(y/n)? ");
       if (!this.keyScan.nextLine().equals("y"))
         break;
@@ -148,7 +162,30 @@ public class BookController {
     int index = Integer.parseInt(this.keyScan.nextLine());
 
     Book deletedBook = list.remove(index);
+    change = true;
 
     System.out.printf("%s 교재 정보를 삭제하였습니다.\n", deletedBook.title);
+  }
+
+  void doSave() throws Exception {
+    FileOutputStream out = new FileOutputStream("temp/temp.data");
+    ObjectOutputStream out1 = new ObjectOutputStream(out);
+
+    out1.writeObject(list);
+
+    System.out.println("저장하였습니다.");
+
+    out1.close();
+    out.close();
+  }
+
+  private void doLoad() throws Exception {
+    FileInputStream in = new FileInputStream("temp/temp.data");
+    ObjectInputStream in1 = new ObjectInputStream(in);
+
+    list = (ArrayList<Book>)in1.readObject();
+
+    in1.close();
+    in.close();
   }
 }
